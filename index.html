@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daniyar Kassymov — Portfolio</title>
+    <meta name="description" content="Daniyar Kassymov — AI & Business student at ESADE. Portfolio and CV.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0d1117;
+            --bg-card: #161b22;
+            --bg-card-hover: #1c2129;
+            --accent: #bd93f9;
+            --accent-dim: rgba(189, 147, 249, 0.15);
+            --accent-glow: rgba(189, 147, 249, 0.3);
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --text-dim: #484f58;
+            --border: #30363d;
+            --font: 'JetBrains Mono', monospace;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        a:hover {
+            opacity: 0.8;
+        }
+
+        ::selection {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        /* scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        /* ===== SCROLL CONTAINER ===== */
+        #scroll-container {
+            display: flex;
+            width: 100vw;
+            height: calc(100vh - 48px); /* leave room for bottom nav */
+            overflow-x: scroll;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        #scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        #scroll-container {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* ===== SECTIONS ===== */
+        .slide {
+            flex: 0 0 100vw;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100%;
+            padding: 40px 24px;
+            position: relative;
+        }
+
+        .slide-inner {
+            max-width: 680px;
+            width: 100%;
+            overflow-y: auto;
+            max-height: calc(100vh - 128px);
+            padding-right: 8px;
+        }
+
+        .slide-inner::-webkit-scrollbar {
+            width: 4px;
+        }
+        .slide-inner::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 2px;
+        }
+
+        /* Section header */
+        .section-path {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+        .section-path .prompt {
+            color: var(--accent);
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 28px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* ===== HOME SLIDE ===== */
+        .home-content {
+            text-align: left;
+        }
+
+        .home-greeting {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .home-name {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .home-name .cursor-blink {
+            display: inline-block;
+            width: 3px;
+            height: 36px;
+            background: var(--accent);
+            margin-left: 4px;
+            vertical-align: text-bottom;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .home-tagline {
+            font-size: 15px;
+            color: var(--accent);
+            margin-bottom: 32px;
+            font-weight: 400;
+        }
+
+        .home-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .home-meta span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .home-meta .label {
+            color: var(--text-dim);
+            min-width: 80px;
+        }
+
+        .home-hint {
+            margin-top: 48px;
+            font-size: 12px;
+            color: var(--text-dim);
+            animation: fadeInUp 1s ease 1.5s both;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .card:hover {
+            border-color: var(--accent-glow);
+            background: var(--bg-card-hover);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .card-role {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .card-date {
+            font-size: 12px;
+            color: var(--text-dim);
+            white-space: nowrap;
+        }
+        .card-date::before {
+            content: '// ';
+            color: var(--text-dim);
+        }
+
+        .card-org {
+            font-size: 13px;
+            color: var(--accent);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .card-location {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .card-bullets {
+            list-style: none;
+            padding: 0;
+        }
+
+        .card-bullets li {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            padding-left: 16px;
+            position: relative;
+            margin-bottom: 6px;
+        }
+
+        .card-bullets li::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* ===== EDUCATION ===== */
+        .edu-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+
+        .edu-block:hover {
+            border-color: var(--accent-glow);
+        }
+
+        .edu-school {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 2px;
+        }
+
+        .edu-degree {
+            font-size: 13px;
+            color: var(--accent);
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .edu-detail {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 4px;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .edu-detail::before {
+            content: '$';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .edu-courses {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+        }
+
+        .edu-courses-label {
+            font-size: 12px;
+            color: var(--text-dim);
+            margin-bottom: 8px;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag {
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 4px;
+            background: var(--accent-dim);
+            color: var(--accent);
+            border: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .tag:hover {
+            border-color: var(--accent);
+        }
+
+        /* ===== SKILLS ===== */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        @media (min-width: 540px) {
+            .skills-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .skill-group {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .skill-group:hover {
+            border-color: var(--accent-glow);
+        }
+
+        .skill-group-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .skill-group-title::before {
+            content: '#';
+            color: var(--text-dim);
+        }
+
+        .skill-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-size: 13px;
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(48, 54, 61, 0.4);
+        }
+
+        .skill-entry:last-child {
+            border-bottom: none;
+        }
+
+        .skill-key {
+            color: var(--text);
+        }
+
+        .skill-val {
+            color: var(--text-muted);
+            font-size: 11px;
+            text-align: right;
+        }
+
+        .cert-item {
+            font-size: 13px;
+            color: var(--text-muted);
+            padding: 6px 0;
+            line-height: 1.5;
+            border-bottom: 1px solid rgba(48, 54, 61, 0.4);
+        }
+
+        .cert-item:last-child {
+            border-bottom: none;
+        }
+
+        .cert-provider {
+            color: var(--text-dim);
+            font-size: 11px;
+        }
+
+        /* ===== CONNECT ===== */
+        .connect-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .connect-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+        }
+
+        .connect-label {
+            color: var(--text-dim);
+            min-width: 90px;
+        }
+
+        .connect-value {
+            color: var(--text);
+        }
+
+        .connect-value a {
+            color: var(--accent);
+        }
+
+        /* ===== REPOS ===== */
+        .repos-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        @media (min-width: 540px) {
+            .repos-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .repo-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            transition: border-color 0.2s, background 0.2s;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .repo-card:hover {
+            border-color: var(--accent-glow);
+            background: var(--bg-card-hover);
+            opacity: 1;
+        }
+
+        .repo-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .repo-name::before {
+            content: '/';
+            color: var(--text-dim);
+            font-weight: 400;
+        }
+
+        .repo-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        .repo-meta {
+            display: flex;
+            gap: 14px;
+            font-size: 11px;
+            color: var(--text-dim);
+        }
+
+        .repo-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .repo-lang-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .repos-loading {
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-dim);
+            padding: 32px 0;
+        }
+
+        .repos-empty {
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-dim);
+            padding: 32px 0;
+        }
+
+        /* ===== BOTTOM NAV ===== */
+        #bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 48px;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            z-index: 100;
+            padding: 0 8px;
+        }
+
+        .nav-tab {
+            font-family: var(--font);
+            font-size: 12px;
+            color: var(--text-dim);
+            background: none;
+            border: none;
+            padding: 8px 14px;
+            cursor: pointer;
+            transition: color 0.2s, background 0.2s;
+            border-radius: 6px 6px 0 0;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .nav-tab:hover {
+            color: var(--text-muted);
+        }
+
+        .nav-tab.active {
+            color: var(--accent);
+            background: var(--bg);
+        }
+
+        .nav-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 1px;
+        }
+
+        /* ===== SIDE ARROWS ===== */
+        .side-arrow {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 50;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-family: var(--font);
+            font-size: 16px;
+            transition: color 0.2s, border-color 0.2s, opacity 0.3s;
+            opacity: 0.5;
+        }
+
+        .side-arrow:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            opacity: 1;
+        }
+
+        .side-arrow.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #arrow-left {
+            left: 16px;
+        }
+
+        #arrow-right {
+            right: 16px;
+        }
+
+        /* ===== SECTION COUNTER ===== */
+        .section-counter {
+            position: fixed;
+            top: 16px;
+            right: 20px;
+            font-size: 12px;
+            color: var(--text-dim);
+            z-index: 50;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .home-name {
+                font-size: 26px;
+            }
+            .home-name .cursor-blink {
+                height: 26px;
+            }
+            .section-title {
+                font-size: 18px;
+            }
+            .nav-tab {
+                font-size: 10px;
+                padding: 8px 8px;
+            }
+            .slide {
+                padding: 32px 16px;
+            }
+            .slide-inner {
+                max-height: calc(100vh - 112px);
+            }
+            .side-arrow {
+                display: none;
+            }
+            .card-header {
+                flex-direction: column;
+                gap: 2px;
+            }
+        }
+
+        /* ===== FADE IN ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+<!-- Section counter -->
+<div class="section-counter" id="section-counter">1 / 7</div>
+
+<!-- Side arrows -->
+<button class="side-arrow hidden" id="arrow-left" aria-label="Previous section">&larr;</button>
+<button class="side-arrow" id="arrow-right" aria-label="Next section">&rarr;</button>
+
+<!-- ==================== SCROLL CONTAINER ==================== -->
+<div id="scroll-container">
+
+    <!-- ===== 1. HOME ===== -->
+    <section class="slide" id="home">
+        <div class="slide-inner home-content">
+            <div class="home-greeting">$ whoami</div>
+            <h1 class="home-name">
+                <span id="typed-name"></span><span class="cursor-blink"></span>
+            </h1>
+            <p class="home-tagline">AI &amp; Business @ ESADE</p>
+
+            <div class="home-meta">
+                <span><span class="label">location</span> Barcelona, Spain</span>
+                <span><span class="label">email</span> <a href="#" class="email-link" data-u="daniyar.kassymov" data-d="alumni.esade.edu"></a></span>
+                <span><span class="label">linkedin</span> <a href="https://www.linkedin.com/in/daniyar-kassymov-" target="_blank" rel="noopener">daniyar-kassymov</a></span>
+                <span><span class="label">github</span> <a href="https://github.com/kssmvv" target="_blank" rel="noopener">kssmvv</a></span>
+            </div>
+
+            <div class="home-hint">press &rarr; or use the tabs below to navigate</div>
+        </div>
+    </section>
+
+    <!-- ===== 2. EXPERIENCE ===== -->
+    <section class="slide" id="experience">
+        <div class="slide-inner">
+            <div class="section-path"><span class="prompt">~</span>/experience</div>
+            <h2 class="section-title">Work Experience</h2>
+
+            <!-- Dow Jones -->
+            <div class="card fade-in">
+                <div class="card-header">
+                    <span class="card-role">Data Research Summer Analyst</span>
+                    <span class="card-date">Jun 2025 &ndash; Aug 2025</span>
+                </div>
+                <div class="card-org">Dow Jones <span class="card-location">&middot; Barcelona, Spain</span></div>
+                <ul class="card-bullets">
+                    <li>Developed a robust automation solution with JavaScript operating Google Apps Script to parse and structure raw email data, creating a centralized database for legal query metrics</li>
+                    <li>Led rollout of the new automation tool across 5 teams of 30+ researchers, authoring guidelines and leading UAT to ensure seamless transition and 100% user adoption</li>
+                    <li>Built visualizations with extracted data using Google Sheets and Streamlit, providing critical workload visibility to management and saving 10+ hours per week</li>
+                </ul>
+            </div>
+
+            <!-- EY -->
+            <div class="card fade-in">
+                <div class="card-header">
+                    <span class="card-role">Technology Strategy &amp; Transformation Intern</span>
+                    <span class="card-date">Jun 2024 &ndash; Jul 2024</span>
+                </div>
+                <div class="card-org">Ernst &amp; Young <span class="card-location">&middot; Almaty, Kazakhstan</span></div>
+                <ul class="card-bullets">
+                    <li>Analyzed IT/IS structures, identifying key areas for improvement. Tuned DBMS initialization parameters to reduce resource utilization by 20%</li>
+                    <li>Proposed and implemented an internal IT department transformation plan, increasing productivity and security through a revised role matrix and access rights management</li>
+                    <li>Conducted digital forensics to identify vulnerabilities, improving incident response plans and reducing response time by 50%</li>
+                    <li>Delivered 3 presentations promoting consulting services to potential clients, resulting in acquisition of a new client</li>
+                </ul>
+            </div>
+
+            <!-- Research Assistant -->
+            <div class="card fade-in">
+                <div class="card-header">
+                    <span class="card-role">Research Assistant</span>
+                    <span class="card-date">Jun 2023 &ndash; Aug 2023</span>
+                </div>
+                <div class="card-org">Esade Business School <span class="card-location">&middot; Barcelona, Spain</span></div>
+                <ul class="card-bullets">
+                    <li>Developed comprehensive data integration solution using Python and Pandas to consolidate economic datasets from multiple online sources across 100+ countries</li>
+                    <li>Verified data quality by identifying and resolving cross-dataset inconsistencies, achieving 99% data accuracy for professor's research publication</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 3. EDUCATION ===== -->
+    <section class="slide" id="education">
+        <div class="slide-inner">
+            <div class="section-path"><span class="prompt">~</span>/education</div>
+            <h2 class="section-title">Education</h2>
+
+            <div class="edu-block fade-in">
+                <div class="edu-school">ESADE Business School, Ramon Llull University</div>
+                <div class="edu-degree">Double Degree &mdash; B.Sc. in Artificial Intelligence in Business &amp; BBA</div>
+                <div style="font-size:12px; color:var(--text-dim); margin-bottom:14px;">Sep 2022 &ndash; Jul 2027 &middot; Barcelona, Spain</div>
+
+                <div class="edu-detail">Average grade: 8.4 / 10</div>
+                <div class="edu-detail">Awarded full Esade Talent Scholarship for outstanding academic and extracurricular performance</div>
+
+                <div class="edu-courses">
+                    <div class="edu-courses-label">// relevant coursework</div>
+                    <div class="tag-list">
+                        <span class="tag">Machine Learning</span>
+                        <span class="tag">AI-based Product Design</span>
+                        <span class="tag">Database Management</span>
+                        <span class="tag">Software Development</span>
+                        <span class="tag">Statistical Inference</span>
+                        <span class="tag">Advanced Math for AI</span>
+                        <span class="tag">Computational Problem Solving</span>
+                        <span class="tag">Advanced Computing</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 4. LEADERSHIP ===== -->
+    <section class="slide" id="leadership">
+        <div class="slide-inner">
+            <div class="section-path"><span class="prompt">~</span>/leadership</div>
+            <h2 class="section-title">Leadership</h2>
+
+            <!-- enode -->
+            <div class="card fade-in">
+                <div class="card-header">
+                    <span class="card-role">Co-Founder &middot; Head of Tech Committee</span>
+                    <span class="card-date">Sep 2024 &ndash; Present</span>
+                </div>
+                <div class="card-org">enode &mdash; Esade Network of Data Excellence <span class="card-location">&middot; Barcelona</span></div>
+                <ul class="card-bullets">
+                    <li>Managed rollout of a chatbot enabling users without SQL expertise to access database data via natural language queries for a Barcelona-based NGO</li>
+                    <li>Initiated collaboration with Esade Library Services to create personalized DataCamp learning paths for students</li>
+                </ul>
+            </div>
+
+            <!-- FECEC -->
+            <div class="card fade-in">
+                <div class="card-header">
+                    <span class="card-role">External Collaborator</span>
+                    <span class="card-date">Feb 2025 &ndash; May 2025</span>
+                </div>
+                <div class="card-org">FECEC &mdash; Federaci&oacute; Catalana d'Entitats contra el C&agrave;ncer <span class="card-location">&middot; Barcelona</span></div>
+                <ul class="card-bullets">
+                    <li>Developed ML-driven tagging framework for cancer web content using TF-IDF, BERTopic, and LLM modeling; curated 14 semantic tags achieving 93% coverage</li>
+                </ul>
+            </div>
+
+            <!-- STEM Lab -->
+            <div class="card fade-in">
+                <div class="card-header">
+                    <span class="card-role">Computer Science Team Lead</span>
+                    <span class="card-date">Sep 2018 &ndash; May 2022</span>
+                </div>
+                <div class="card-org">STEM Laboratory <span class="card-location">&middot; Shymkent, Kazakhstan</span></div>
+                <ul class="card-bullets">
+                    <li>Directed inaugural city STEM laboratory; presented 3D economic geography model of South Kazakhstan region developed with Unreal Engine and Blender</li>
+                    <li>Implemented and instructed a Python programming curriculum for middle school students</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 5. SKILLS ===== -->
+    <section class="slide" id="skills">
+        <div class="slide-inner">
+            <div class="section-path"><span class="prompt">~</span>/skills</div>
+            <h2 class="section-title">Skills &amp; Tools</h2>
+
+            <div class="skills-grid">
+                <!-- Languages -->
+                <div class="skill-group fade-in">
+                    <div class="skill-group-title">languages</div>
+                    <div class="skill-entry"><span class="skill-key">English</span><span class="skill-val">fluent</span></div>
+                    <div class="skill-entry"><span class="skill-key">Spanish</span><span class="skill-val">fluent</span></div>
+                    <div class="skill-entry"><span class="skill-key">German</span><span class="skill-val">intermediate</span></div>
+                    <div class="skill-entry"><span class="skill-key">Catalan</span><span class="skill-val">intermediate</span></div>
+                    <div class="skill-entry"><span class="skill-key">Russian</span><span class="skill-val">native</span></div>
+                    <div class="skill-entry"><span class="skill-key">Kazakh</span><span class="skill-val">native</span></div>
+                    <div class="skill-entry"><span class="skill-key">Uzbek</span><span class="skill-val">native</span></div>
+                </div>
+
+                <!-- Technical -->
+                <div class="skill-group fade-in">
+                    <div class="skill-group-title">technical</div>
+                    <div class="skill-entry"><span class="skill-key">SQL</span><span class="skill-val">advanced</span></div>
+                    <div class="skill-entry"><span class="skill-key">Microsoft Suite</span><span class="skill-val">advanced</span></div>
+                    <div class="skill-entry"><span class="skill-key">Python</span><span class="skill-val">intermediate</span></div>
+                    <div class="skill-entry"><span class="skill-key">Pandas / NumPy / sklearn</span><span class="skill-val">intermediate</span></div>
+                    <div class="skill-entry"><span class="skill-key">Tableau</span><span class="skill-val">intermediate</span></div>
+                </div>
+
+                <!-- Certifications (span full width) -->
+                <div class="skill-group fade-in" style="grid-column: 1 / -1;">
+                    <div class="skill-group-title">certifications</div>
+                    <div class="cert-item">Data Engineer in Python <span class="cert-provider">&mdash; DataCamp</span></div>
+                    <div class="cert-item">Working with the OpenAI API <span class="cert-provider">&mdash; DataCamp</span></div>
+                    <div class="cert-item">Business Metrics for Data-Driven Companies <span class="cert-provider">&mdash; Duke University</span></div>
+                    <div class="cert-item">Using Python to Access Web Data <span class="cert-provider">&mdash; University of Michigan</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 6. PROJECTS ===== -->
+    <section class="slide" id="projects">
+        <div class="slide-inner">
+            <div class="section-path"><span class="prompt">~</span>/projects</div>
+            <h2 class="section-title">Projects</h2>
+
+            <div id="repos-container">
+                <div class="repos-loading">$ fetching repositories...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 7. CONNECT ===== -->
+    <section class="slide" id="connect">
+        <div class="slide-inner">
+            <div class="section-path"><span class="prompt">~</span>/connect</div>
+            <h2 class="section-title">Get in Touch</h2>
+
+            <div class="connect-grid fade-in">
+                <div class="connect-row">
+                    <span class="connect-label">email</span>
+                    <span class="connect-value"><a href="#" class="email-link" data-u="daniyar.kassymov" data-d="alumni.esade.edu"></a></span>
+                </div>
+                <div class="connect-row">
+                    <span class="connect-label">linkedin</span>
+                    <span class="connect-value"><a href="https://www.linkedin.com/in/daniyar-kassymov-" target="_blank" rel="noopener">linkedin.com/in/daniyar-kassymov</a></span>
+                </div>
+                <div class="connect-row">
+                    <span class="connect-label">github</span>
+                    <span class="connect-value"><a href="https://github.com/kssmvv" target="_blank" rel="noopener">github.com/kssmvv</a></span>
+                </div>
+                <div class="connect-row">
+                    <span class="connect-label">location</span>
+                    <span class="connect-value">Barcelona, Spain</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</div>
+<!-- end scroll-container -->
+
+<!-- ===== BOTTOM NAV ===== -->
+<nav id="bottom-nav">
+    <button class="nav-tab active" data-index="0">~/home</button>
+    <button class="nav-tab" data-index="1">~/experience</button>
+    <button class="nav-tab" data-index="2">~/education</button>
+    <button class="nav-tab" data-index="3">~/leadership</button>
+    <button class="nav-tab" data-index="4">~/skills</button>
+    <button class="nav-tab" data-index="5">~/projects</button>
+    <button class="nav-tab" data-index="6">~/connect</button>
+</nav>
+
+<script>
+    // ===== EMAIL OBFUSCATION =====
+    document.querySelectorAll('.email-link').forEach(el => {
+        const u = el.dataset.u;
+        const d = el.dataset.d;
+        const addr = u + '@' + d;
+        el.textContent = addr;
+        el.href = 'mail' + 'to:' + addr;
+    });
+
+    // ===== TYPING ANIMATION =====
+    const nameText = 'Daniyar Kassymov';
+    const typedEl = document.getElementById('typed-name');
+    let charIndex = 0;
+
+    function typeWriter() {
+        if (charIndex < nameText.length) {
+            typedEl.textContent += nameText.charAt(charIndex);
+            charIndex++;
+            setTimeout(typeWriter, 70);
+        }
+    }
+    setTimeout(typeWriter, 400);
+
+    // ===== SCROLL NAVIGATION =====
+    const container = document.getElementById('scroll-container');
+    const slides = document.querySelectorAll('.slide');
+    const tabs = document.querySelectorAll('.nav-tab');
+    const arrowLeft = document.getElementById('arrow-left');
+    const arrowRight = document.getElementById('arrow-right');
+    const counter = document.getElementById('section-counter');
+    const totalSlides = slides.length;
+    let currentIndex = 0;
+
+    function scrollToSlide(index) {
+        if (index < 0 || index >= totalSlides) return;
+        slides[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    }
+
+    function updateUI() {
+        // tabs
+        tabs.forEach((tab, i) => {
+            tab.classList.toggle('active', i === currentIndex);
+        });
+
+        // arrows
+        arrowLeft.classList.toggle('hidden', currentIndex === 0);
+        arrowRight.classList.toggle('hidden', currentIndex === totalSlides - 1);
+
+        // counter
+        counter.textContent = `${currentIndex + 1} / ${totalSlides}`;
+
+        // fade-in elements in current slide
+        const fadeEls = slides[currentIndex].querySelectorAll('.fade-in');
+        fadeEls.forEach((el, i) => {
+            setTimeout(() => el.classList.add('visible'), i * 100);
+        });
+    }
+
+    // Scroll listener
+    let scrollTimeout;
+    container.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            const vw = window.innerWidth;
+            const newIndex = Math.round(container.scrollLeft / vw);
+            if (newIndex !== currentIndex && newIndex >= 0 && newIndex < totalSlides) {
+                currentIndex = newIndex;
+                updateUI();
+            }
+        }, 50);
+    });
+
+    // Tab clicks
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const idx = parseInt(tab.dataset.index);
+            currentIndex = idx;
+            scrollToSlide(idx);
+            updateUI();
+        });
+    });
+
+    // Arrow clicks
+    arrowLeft.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            scrollToSlide(currentIndex);
+            updateUI();
+        }
+    });
+
+    arrowRight.addEventListener('click', () => {
+        if (currentIndex < totalSlides - 1) {
+            currentIndex++;
+            scrollToSlide(currentIndex);
+            updateUI();
+        }
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (currentIndex < totalSlides - 1) {
+                currentIndex++;
+                scrollToSlide(currentIndex);
+                updateUI();
+            }
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (currentIndex > 0) {
+                currentIndex--;
+                scrollToSlide(currentIndex);
+                updateUI();
+            }
+        }
+    });
+
+    // Touch swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    container.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    container.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) {
+            if (diff > 0 && currentIndex < totalSlides - 1) {
+                currentIndex++;
+            } else if (diff < 0 && currentIndex > 0) {
+                currentIndex--;
+            }
+            scrollToSlide(currentIndex);
+            updateUI();
+        }
+    }, { passive: true });
+
+    // ===== GITHUB REPOS =====
+    const GITHUB_USER = 'kssmvv';
+    const reposContainer = document.getElementById('repos-container');
+
+    const langColors = {
+        'JavaScript': '#f1e05a', 'TypeScript': '#3178c6', 'Python': '#3572A5',
+        'HTML': '#e34c26', 'CSS': '#563d7c', 'Java': '#b07219', 'C++': '#f34b7d',
+        'C': '#555555', 'Shell': '#89e051', 'Jupyter Notebook': '#DA5B0B',
+        'R': '#198CE7', 'Go': '#00ADD8', 'Rust': '#dea584', 'Ruby': '#701516',
+        'PHP': '#4F5D95', 'Swift': '#F05138', 'Kotlin': '#A97BFF',
+    };
+
+    async function fetchRepos() {
+        try {
+            const res = await fetch(`https://api.github.com/users/${GITHUB_USER}/repos?sort=updated&per_page=30`);
+            if (!res.ok) throw new Error(res.status);
+            const repos = await res.json();
+
+            const filtered = repos
+                .filter(r => !r.fork && r.name !== 'portfolio')
+                .sort((a, b) => b.stargazers_count - a.stargazers_count || new Date(b.updated_at) - new Date(a.updated_at))
+                .slice(0, 8);
+
+            if (filtered.length === 0) {
+                reposContainer.innerHTML = '<div class="repos-empty">// no public repositories yet</div>';
+                return;
+            }
+
+            reposContainer.innerHTML = '<div class="repos-grid">' + filtered.map(r => {
+                const lang = r.language || '';
+                const color = langColors[lang] || '#8b949e';
+                const desc = r.description ? r.description.slice(0, 100) : 'No description';
+                const stars = r.stargazers_count;
+                return `<a href="${r.html_url}" target="_blank" rel="noopener" class="repo-card fade-in">
+                    <div class="repo-name">${r.name}</div>
+                    <div class="repo-desc">${desc}</div>
+                    <div class="repo-meta">
+                        ${lang ? `<span><span class="repo-lang-dot" style="background:${color}"></span>${lang}</span>` : ''}
+                        ${stars > 0 ? `<span>&#9733; ${stars}</span>` : ''}
+                    </div>
+                </a>`;
+            }).join('') + '</div>';
+
+            // trigger fade-in for visible repos
+            const repoSlide = document.getElementById('projects');
+            if (slides[currentIndex] === repoSlide) {
+                repoSlide.querySelectorAll('.fade-in').forEach((el, i) => {
+                    setTimeout(() => el.classList.add('visible'), i * 80);
+                });
+            }
+        } catch (e) {
+            reposContainer.innerHTML = '<div class="repos-empty">// could not load repositories</div>';
+        }
+    }
+
+    fetchRepos();
+
+    // Initial state
+    updateUI();
+</script>
+
+</body>
+</html>
